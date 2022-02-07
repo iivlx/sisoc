@@ -5,16 +5,11 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include <stdio.h>
-#include <iostream>
-#include <string>
-
 #include "Window.h"
 #include "Game.h"
 #include "Tile.h"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	Window* wmain;
 	Game* game;
 
@@ -28,14 +23,10 @@ int main(int argc, char* argv[])
 
 	game = new Game(wmain);
 
-	while (!game->quit)
-	{
-
+	while (!game->quit) {
 		game->mainloop();
 	}
-
 	wmain->quit();
-
 
 	return 0;
 }
