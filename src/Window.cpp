@@ -8,8 +8,7 @@
 
 #include "Window.h"
 
-Window::Window()
-{
+Window::Window() {
 	window = NULL;
 	glc = NULL;
 
@@ -18,62 +17,45 @@ Window::Window()
 	camzoom = 1;
 }
 
-int Window::init()
-{
+int Window::init() {
 	if (!initSDL())
-	{
 		return WINDOW_ERROR_INIT;
-	}
 	if (!createWindow())
-	{
 		return WINDOW_ERROR_WINDOW;
-	}
 	if (!createGLContext())
-	{
 		return WINDOW_ERROR_GL;
-	}
 	if (!initGL())
-	{
 		return WINDOW_ERROR_GL;
-	}
 	if (!initGLEW())
-	{
 		return WINDOW_ERROR_GLEW;
-	}
 
 	return 0;
 }
 
 
-void Window::quit()
-{
+void Window::quit() {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
-void Window::clear()
-{
+void Window::clear() {
 	clear(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void Window::clear(float r, float g, float b)
-{
+void Window::clear(float r, float g, float b) {
 	clear(r, g, b, 1.0f);
 }
 
-void Window::clear(float r, float g, float b, float a)
-{
+void Window::clear(float r, float g, float b, float a) {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::display()
-{
+void Window::display() {
 	SDL_GL_SwapWindow(window);
 }
 
-void Window::drawRect(float x1, float y1, float x2, float y2, float r, float g, float b)
-{
+void Window::drawRect(float x1, float y1, float x2, float y2, float r, float g, float b) {
 	glBegin(GL_QUADS);
 	glColor3f(r, g, b);
 
@@ -82,12 +64,10 @@ void Window::drawRect(float x1, float y1, float x2, float y2, float r, float g, 
 	glVertex2f(x2, y2);
 	glVertex2f(x2, y1);
 
-
 	glEnd();
 }
 
-void Window::drawQuad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b)
-{
+void Window::drawQuad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float r, float g, float b) {
 	glBegin(GL_QUADS);
 	glColor3f(r, g, b);
 
@@ -99,8 +79,7 @@ void Window::drawQuad(float x1, float y1, float x2, float y2, float x3, float y3
 	glEnd();
 }
 
-void Window::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b)
-{
+void Window::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b) {
 	glBegin(GL_TRIANGLES);
 	glColor3f(r, g, b);
 
@@ -111,24 +90,19 @@ void Window::drawTriangle(float x1, float y1, float x2, float y2, float x3, floa
 	glEnd();
 }
 
-void Window::translateCamera()
-{
+void Window::translateCamera() {
 	translateCamera(camx, camy, camzoom);
 }
 
-void Window::translateCamera(double x, double y, float z)
-{
-
+void Window::translateCamera(double x, double y, float z) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(-(float)x, -(float)y, 0.f);
 	glScalef(z, z, z);
 }
 
-void Window::scrollCamera()
-{
-	if (mouseclicked)
-	{
+void Window::scrollCamera() {
+	if (mouseclicked) {
 		int x, y;
 		double dx, dy;
 		SDL_GetMouseState(&x, &y);
@@ -143,20 +117,16 @@ void Window::scrollCamera()
 	}
 }
 
-void Window::zoom(int dir)
-{
+void Window::zoom(int dir) {
 	int x, y; // original screen x,y
 	double wx, wy; // original world x,y
 	double sx, sy; // new screen x,y
 
 	if (dir > 0)
-	{
 		camzoom *= camzoomfactor;
-	}
 	else
-	{
 		camzoom /= camzoomfactor;
-	}
+
 	SDL_GetMouseState(&x, &y);
 	getWorldPos(x, y, &wx, &wy);
 
@@ -167,24 +137,22 @@ void Window::zoom(int dir)
 
 	camx += (sx - x); // move camera by difference of adjusted screen coords
 	camy += (sy - y);
-
-
 }
-void Window::setMouse()
-{
+
+void Window::setMouse() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
 	mouseclickx = x;
 	mouseclicky = y;
 }
-void Window::setMouse(bool clicked)
-{
+
+void Window::setMouse(bool clicked) {
 	setMouse();
 	mouseclicked = clicked;
 }
-void Window::getWorldPos(double x, double y, double* newx, double* newy)
-{
+
+void Window::getWorldPos(double x, double y, double* newx, double* newy) {
 	GLint viewport[4];
 	GLdouble modelview[16];
 	GLdouble projection[16];
@@ -205,8 +173,7 @@ void Window::getWorldPos(double x, double y, double* newx, double* newy)
 	gluUnProject(winX, winY, winZ, modelview, projection, viewport, newx, newy, &posZ);
 }
 
-void Window::getScreenPos(double x, double y, double* newx, double* newy)
-{
+void Window::getScreenPos(double x, double y, double* newx, double* newy) {
 	GLint viewport[4];
 	GLdouble modelview[16];
 	GLdouble projection[16];
@@ -225,13 +192,11 @@ void Window::getScreenPos(double x, double y, double* newx, double* newy)
 	*newy = viewport[3] - posY;
 }
 
-void Window::resetCamera()
-{
+void Window::resetCamera() {
 	
 }
 
-bool Window::initSDL()
-{
+bool Window::initSDL() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		displaySDLError();
 		return false;
@@ -240,8 +205,7 @@ bool Window::initSDL()
 	return true;
 }
 
-bool Window::initGL()
-{
+bool Window::initGL() {
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glMatrixMode(GL_PROJECTION);
@@ -256,8 +220,7 @@ bool Window::initGL()
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 
 	GLenum e = glGetError();
-	if (e != GL_NO_ERROR)
-	{
+	if (e != GL_NO_ERROR) {
 		displayGLError(e);
 		return false;
 	}
@@ -265,19 +228,16 @@ bool Window::initGL()
 	return true;
 }
 
-bool Window::initGLEW()
-{
+bool Window::initGLEW() {
 	GLenum e = glewInit();
-	if (e != GLEW_OK)
-	{
+	if (e != GLEW_OK) {
 		displayGLError(e);
 		return false;
 	}
 	return true;
 }
 
-bool Window::createWindow()
-{
+bool Window::createWindow() {
 	window = SDL_CreateWindow("iivlx", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
 		displaySDLError();
@@ -286,8 +246,7 @@ bool Window::createWindow()
 	return true;
 }
 
-bool Window::createGLContext()
-{
+bool Window::createGLContext() {
 	glc = SDL_GL_CreateContext(window);
 	if (glc == NULL) {
 		displaySDLError();
@@ -297,14 +256,12 @@ bool Window::createGLContext()
 }
 
 
-void Window::displaySDLError()
-{
+void Window::displaySDLError() {
 	printf("SDL_Error: %s\n", SDL_GetError());
 	SDL_ShowSimpleMessageBox(16, "Error", SDL_GetError(), 0);
 }
 
-void Window::displayGLError(GLenum e)
-{
+void Window::displayGLError(GLenum e) {
 	printf("GL Error: %d\n", e);
 	std::string e_str = std::to_string(e);
 	SDL_ShowSimpleMessageBox(16, "GL Error", e_str.c_str() , 0);

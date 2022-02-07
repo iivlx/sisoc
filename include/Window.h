@@ -19,7 +19,6 @@ class Window
 public:
 	Window();
 
-
 	int init();
 	void quit();
 	void display();
@@ -39,7 +38,6 @@ public:
 	void getWorldPos(double x, double y, double* newx, double* newy);
 	void getScreenPos(double x, double y, double* newx, double* newy);
 
-
 	double camx = 0.0f;
 	double camy = 0.0f;
 	float camzoom = 1.0f;
@@ -48,8 +46,8 @@ public:
 	double mouseclickx = 0;
 	double mouseclicky = 0;
 	bool mouseclicked = false;
-private:
 
+private:
 	SDL_Window* window;
 	SDL_GLContext glc;
 
