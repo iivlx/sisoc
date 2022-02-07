@@ -10,29 +10,24 @@ const int GRID_HEIGHT = 40;
 
 //struct 
 
-struct color3f
-{
+struct color3f {
 	float r, g, b;
 };
 
-struct color4f
-{
+struct color4f {
 	float r, g, b, a;
 };
 
-struct vec3f
-{
+struct vec3f {
 	float x, y, z;
 };
 
-struct vec3i
-{
+struct vec3i {
 	int x, y, z;
 };
 
 
-class Game
-{
+class Game {
 public:
 	Window* window;
 
@@ -47,8 +42,10 @@ public:
 	void handleMouseScroll();
 	void drawTiles();
 	void drawTile(Tile* t);
+	void drawTileWithOutline(Tile* t);
 	void drawTileSelected(Tile* t);
 	void drawTileOutline(Tile* t);
+	bool isSelected(int x, int y);
 	Tile* getTileTop(Tile* t);
 	Tile* getTileTopRight(Tile* t);
 	Tile* getTileTopLeft(Tile* t);
@@ -57,15 +54,14 @@ public:
 	Tile* getTileBottomRight(Tile* t);
 	Tile* getTileBottomLeft(Tile* t);
 	Tile* getTileLeft(Tile* t);
+	Tile* getTileAtXY(int x, int y);
+	Tile* getTileAtRC(int r, int c);
 	void increaseTileHeight(Tile* t, int amount);
 	void increaseTileHT(Tile* t, int amount);
 	void increaseTileHR(Tile* t, int amount);
 	void increaseTileHB(Tile* t, int amount);
 	void increaseTileHL(Tile* t, int amount);
-	Tile* getTileAtXY(int x, int y);
-	Tile* getTileAtRC(int r, int c);
 	bool mouseInTile(Tile* t);
-
 
 private:
 	Tile** tiles;
