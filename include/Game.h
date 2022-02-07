@@ -2,29 +2,12 @@
 
 #include <SDL.h>
 
+#include "vector.h"
 #include "Window.h"
 #include "Tile.h"
 
 const int GRID_WIDTH = 40;
 const int GRID_HEIGHT = 40;
-
-//struct 
-
-struct color3f {
-	float r, g, b;
-};
-
-struct color4f {
-	float r, g, b, a;
-};
-
-struct vec3f {
-	float x, y, z;
-};
-
-struct vec3i {
-	int x, y, z;
-};
 
 
 class Game {
