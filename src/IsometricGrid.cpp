@@ -155,36 +155,18 @@ void IsometricGrid::drawTileQuad(Tile* t) {
 }
 
 void IsometricGrid::drawTile(Tile* t) {
-
-  color3f f = { 0.6f, 0.7373f, 0.3765f };
-
-  color3f s = { 0.47f, 0.64f, 0.22f };
-  color3f s2 = { 0.7373f, 0.8784f, 0.5f };
-  color3f r1 = { 0.5f, 0.5f, 0.5f };
-
-  color3f c1 = f;
-  color3f c2 = f;
-
-  c2.r = 0;
-  c2.g = .5f;
-  c2.b = .3f;
-  int ht = t->ht;
-  int hr = t->hr;
-  int hb = t->hb;
-  int hl = t->hl;
-
   if (wireframe)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   else
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   if (isFlatTile(t)) { // flat tile
-    drawTileQuadColor(t, f);
+    drawTileQuadColor(t, FLAT);
   }
-  else if (ht == hb) { // split v
+  else if (t->ht == t->hb) { // split v
     drawTileSplitVertical(t);
   }
-  else if (hr == hl) { // split h
+  else if (t->hr == t->hl) { // split h
     drawTileSplitHorizontal(t);
   }
   else { // quad
