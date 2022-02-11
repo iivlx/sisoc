@@ -9,21 +9,21 @@
 
 class Game {
 public:
-	Window* window;
-	IsometricGrid* grid;
+  Window* window;
+  IsometricGrid* grid;
 
-	Game(Window* w);
-	bool quit;
-	void mainloop();
-	void processEvents();
-	void handleKeyPress(SDL_Keycode key);
-	void handleMousePress(SDL_MouseButtonEvent b);
-	void handleMouseMotion();
-	void handleMouseUp();
-	void handleMouseScroll();
-	bool mouseInTile(Tile* t);
+  Game(Window* w);
+  bool quit;
+  void mainloop();
+  void processEvents();
+  void handleKeyPress(SDL_Keycode key);
+  void handleMousePress(SDL_MouseButtonEvent b);
+  void handleMouseMotion();
+  void handleMouseUp();
+  void handleMouseScroll();
+  bool mouseInTile(Tile* t);
 
 private:
-	SDL_Event event;
+  SDL_Event event;
 
 };

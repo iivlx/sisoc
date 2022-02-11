@@ -10,47 +10,47 @@ const int GRID_HEIGHT = 40;
 class IsometricGrid {
 
 public:
-	Window* window;
+  Window* window;
 
-	Tile** tiles;
+  Tile** tiles;
 
-	vec3i selected;
+  vec3i selected;
 
-	int width, height, size;
+  int width, height, size;
 
-	float tw = 64;
-	float th = 32;
-	bool wireframe = false;
+  float tw = 64;
+  float th = 32;
+  bool wireframe = false;
 
-	IsometricGrid(Window* w);
-	void fillWithEmptyTiles();
-	void clearTiles();
-	void drawTiles();
-	void drawTile(Tile* t);
-	void drawTileQuadColor(Tile* t, color3f c);
-	void drawTileWithOutline(Tile* t);
-	void drawTileSelected(Tile* t);
-	void drawTileOutline(Tile* t);
-	bool isSelected(int x, int y);
-	bool isFlatTile(Tile* t);
-	void drawTileSplitVertical(Tile* t);
-	void drawTileSplitHorizontal(Tile* t);
-	void drawTileQuad(Tile* t);
-	Tile* getTileTop(Tile* t);
-	Tile* getTileTopRight(Tile* t);
-	Tile* getTileTopLeft(Tile* t);
-	Tile* getTileRight(Tile* t);
-	Tile* getTileBottom(Tile* t);
-	Tile* getTileBottomRight(Tile* t);
-	Tile* getTileBottomLeft(Tile* t);
-	Tile* getTileLeft(Tile* t);
-	Tile* getTileAtXY(int x, int y);
-	Tile* getTileAtRC(int r, int c);
-	void increaseTileHeight(Tile* t, int amount);
-	void increaseSelectedTileHeight(int amount);
-	void increaseTileHT(Tile* t, int amount);
-	void increaseTileHR(Tile* t, int amount);
-	void increaseTileHB(Tile* t, int amount);
-	void increaseTileHL(Tile* t, int amount);
+  IsometricGrid(Window* w);
+  void fillWithEmptyTiles();
+  void clearTiles();
+  void drawTiles();
+  void drawTile(Tile* t);
+  void drawTileQuadColor(Tile* t, color3f c);
+  void drawTileWithOutline(Tile* t);
+  void drawTileSelected(Tile* t);
+  void drawTileOutline(Tile* t);
+  bool isSelected(int x, int y);
+  bool isFlatTile(Tile* t);
+  void drawTileSplitVertical(Tile* t);
+  void drawTileSplitHorizontal(Tile* t);
+  void drawTileQuad(Tile* t);
+  Tile* getTileTop(Tile* t);
+  Tile* getTileTopRight(Tile* t);
+  Tile* getTileTopLeft(Tile* t);
+  Tile* getTileRight(Tile* t);
+  Tile* getTileBottom(Tile* t);
+  Tile* getTileBottomRight(Tile* t);
+  Tile* getTileBottomLeft(Tile* t);
+  Tile* getTileLeft(Tile* t);
+  Tile* getTileAtXY(int x, int y);
+  Tile* getTileAtRC(int r, int c);
+  void increaseTileHeight(Tile* t, int amount);
+  void increaseSelectedTileHeight(int amount);
+  void increaseTileHT(Tile* t, int amount);
+  void increaseTileHR(Tile* t, int amount);
+  void increaseTileHB(Tile* t, int amount);
+  void increaseTileHL(Tile* t, int amount);
 
 };

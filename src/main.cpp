@@ -10,23 +10,23 @@
 #include "Tile.h"
 
 int main(int argc, char* argv[]) {
-	Window* wmain;
-	Game* game;
+  Window* wmain;
+  Game* game;
 
-	wmain = new Window();
+  wmain = new Window();
 
-	int error = wmain->init();
-	if (error > 0) {
-		wmain->quit();
-		return error;
-	}
+  int error = wmain->init();
+  if (error > 0) {
+    wmain->quit();
+    return error;
+  }
 
-	game = new Game(wmain);
+  game = new Game(wmain);
 
-	while (!game->quit) {
-		game->mainloop();
-	}
-	wmain->quit();
+  while (!game->quit) {
+    game->mainloop();
+  }
+  wmain->quit();
 
-	return 0;
+  return 0;
 }

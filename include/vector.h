@@ -1,17 +1,17 @@
 #pragma once
 
 struct color3f {
-	float r, g, b;
+  float r, g, b;
 };
 
 struct color4f {
-	float r, g, b, a;
+  float r, g, b, a;
 };
 
 struct vec3f {
-	float x, y, z;
+  float x, y, z;
 };
 
 struct vec3i {
-	int x, y, z;
+  int x, y, z;
 };
