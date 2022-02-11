@@ -23,6 +23,7 @@ public:
   bool wireframe = false;
 
   IsometricGrid(Window* w);
+  ~IsometricGrid();
   void fillWithEmptyTiles();
   void clearTiles();
   void drawTiles();
@@ -52,5 +53,4 @@ public:
   void increaseTileHR(Tile* t, int amount);
   void increaseTileHB(Tile* t, int amount);
   void increaseTileHL(Tile* t, int amount);
-
 };

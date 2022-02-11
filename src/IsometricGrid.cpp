@@ -27,6 +27,10 @@ IsometricGrid::IsometricGrid(Window* w) {
   fillWithEmptyTiles();
 }
 
+IsometricGrid::~IsometricGrid() {
+  clearTiles();
+}
+
 void IsometricGrid::fillWithEmptyTiles() {
   for (int i = 0; i < width; i++)
     for (int j = 0; j < height; j++)
@@ -114,8 +118,7 @@ void IsometricGrid::drawTileSplitVertical(Tile* t) {
 }
 
 void IsometricGrid::drawTileSplitHorizontal(Tile* t) {
-  \
-    color3f c1 = FLAT;
+  color3f c1 = FLAT;
   color3f c2 = FLAT;
 
   if (t->ht == t->hr) // top flat

@@ -17,6 +17,11 @@ Window::Window() {
   camzoom = 1;
 }
 
+Window::~Window() {
+  if (window) delete window;
+  if (glc) delete glc;
+}
+
 int Window::init() {
   if (!initSDL())
     return WINDOW_ERROR_INIT;

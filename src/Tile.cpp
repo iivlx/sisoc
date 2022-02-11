@@ -16,6 +16,8 @@ Tile::Tile(int r, int c, int w, int h) {
   calculateVertices();
 }
 
+Tile::~Tile() { }
+
 void Tile::calculateVertices(void) {
   x = (col - row) * tw / 2;
   y = (col + row) * th / 2;

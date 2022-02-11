@@ -17,6 +17,10 @@ Game::Game(Window* w) {
   grid = new IsometricGrid(w);
 }
 
+Game::~Game() {
+  if (grid) delete grid;
+}
+
 void Game::mainloop() {
   processEvents();
 
@@ -84,8 +88,7 @@ void Game::handleMouseScroll() {
     window->zoom(-1);
 }
 
-void Game::handleKeyPress(SDL_Keycode key)
-{
+void Game::handleKeyPress(SDL_Keycode key) {
   switch (key) {
   case SDLK_w:
     if(!(grid->selected.y == 0))
@@ -114,6 +117,9 @@ void Game::handleKeyPress(SDL_Keycode key)
     break;
   case SDLK_v:
     grid->wireframe = !grid->wireframe;
+    break;
+  case SDLK_q:
+    this->quit = true;
     break;
   }
 }

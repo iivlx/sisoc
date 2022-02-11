@@ -18,6 +18,7 @@ class Window
 {
 public:
 	Window();
+	~Window();
 
 	int init();
 	void quit();

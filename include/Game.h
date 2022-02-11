@@ -13,6 +13,7 @@ public:
   IsometricGrid* grid;
 
   Game(Window* w);
+  ~Game();
   bool quit;
   void mainloop();
   void processEvents();

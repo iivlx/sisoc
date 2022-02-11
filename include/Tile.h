@@ -10,6 +10,7 @@ class Tile
 {
 public:
   Tile(int r, int c, int w, int h);
+  ~Tile();
   int r, g, b, a;
   int ht, hr, hl, hb;
   int row, col;
