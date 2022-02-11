@@ -9,7 +9,6 @@
 #include "Game.h"
 #include "Tile.h"
 
-
 Game::Game(Window* w) {
 	window = w;
 	event = SDL_Event();
@@ -105,7 +104,7 @@ void Game::handleKeyPress(SDL_Keycode key)
 			grid->selected.x += 1;
 		break;
 	case SDLK_SPACE:
-		grid->increaseTileHeight(grid->getTileAtXY(grid->selected.x, grid->selected.y), 8);
+		grid->increaseSelectedTileHeight(8);
 		break;
 	case SDLK_r: // Reset Camera
 		std::cout << "r" << std::endl;

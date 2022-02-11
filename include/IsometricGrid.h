@@ -23,12 +23,19 @@ public:
 	bool wireframe = false;
 
 	IsometricGrid(Window* w);
+	void fillWithEmptyTiles();
+	void clearTiles();
 	void drawTiles();
 	void drawTile(Tile* t);
+	void drawTileQuadColor(Tile* t, color3f c);
 	void drawTileWithOutline(Tile* t);
 	void drawTileSelected(Tile* t);
 	void drawTileOutline(Tile* t);
 	bool isSelected(int x, int y);
+	bool isFlatTile(Tile* t);
+	void drawTileSplitVertical(Tile* t);
+	void drawTileSplitHorizontal(Tile* t);
+	void drawTileQuad(Tile* t);
 	Tile* getTileTop(Tile* t);
 	Tile* getTileTopRight(Tile* t);
 	Tile* getTileTopLeft(Tile* t);
@@ -40,6 +47,7 @@ public:
 	Tile* getTileAtXY(int x, int y);
 	Tile* getTileAtRC(int r, int c);
 	void increaseTileHeight(Tile* t, int amount);
+	void increaseSelectedTileHeight(int amount);
 	void increaseTileHT(Tile* t, int amount);
 	void increaseTileHR(Tile* t, int amount);
 	void increaseTileHB(Tile* t, int amount);

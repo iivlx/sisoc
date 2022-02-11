@@ -7,6 +7,16 @@
 #include "IsometricGrid.h"
 #include "Tile.h"
 
+
+color3f FLAT = { 0.6f, 0.7373f, 0.3765f };
+color3f SLOPE_1 = { 0.47f, 0.64f, 0.22f };
+color3f SLOPE_2 = { 0.7373f, 0.8784f, 0.5f };
+
+struct IsometricGridColors {
+
+
+};
+
 IsometricGrid::IsometricGrid(Window* w) {
 	selected = { 0,0,0 };
 
@@ -15,10 +25,24 @@ IsometricGrid::IsometricGrid(Window* w) {
 	size = width * height;
 
 	tiles = new Tile * [size];
+	fillWithEmptyTiles();
+}
+
+void IsometricGrid::fillWithEmptyTiles() {
 	for (int i = 0; i < width; i++)
 		for (int j = 0; j < height; j++)
 			tiles[(i * width) + j] = new Tile(i, j, tw, th);
 }
+
+void IsometricGrid::clearTiles() {
+	Tile* t;
+	for (int i = 0; i < width; i++)
+		for (int j = 0; j < height; j++) {
+			t = tiles[(i * width) + j];
+			if (t) delete t;
+		}
+}
+
 
 void IsometricGrid::drawTiles() {
 	Tile* t;
@@ -31,6 +55,10 @@ void IsometricGrid::drawTiles() {
 				drawTileWithOutline(t);
 		}
 	}
+}
+
+void IsometricGrid::drawTileQuadColor(Tile* t, color3f c) {
+	window->drawQuad(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c.r, c.g, c.b);
 }
 
 void IsometricGrid::drawTileWithOutline(Tile* t) {
@@ -60,10 +88,73 @@ void IsometricGrid::drawTileSelected(Tile* t) {
 	window->drawQuad(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, 1.f, 1.f, 1.f);
 }
 
+bool IsometricGrid::isFlatTile(Tile* t) {
+	return (t->ht == t->hr && t->hr == t->hb && t->hb == t->hl);
+}
+
+void IsometricGrid::drawTileSplitVertical(Tile* t) {
+	color3f c1 = FLAT;
+	color3f c2 = FLAT;
+
+	if (t->ht == t->hr) // right flat
+		c1 = FLAT;
+	else if (t->ht > t->hr) // right slope down
+		c1 = SLOPE_2;
+	else // right slope up
+		c1 = SLOPE_1;
+
+	if (t->ht == t->hl) // left flat
+		c2 = FLAT;
+	else if (t->ht > t->hl) // left slope up
+		c2 = SLOPE_1;
+	else // left slope down
+		c2 = SLOPE_2;
+
+	this->window->drawTriangle(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, c1.r, c1.g, c1.b);
+	this->window->drawTriangle(t->topx, t->topy, t->bottomx, t->bottomy, t->leftx, t->lefty, c2.r, c2.g, c2.b);
+}
+
+void IsometricGrid::drawTileSplitHorizontal(Tile* t) {\
+	color3f c1 = FLAT;
+	color3f c2 = FLAT;
+
+	if (t->ht == t->hr) // top flat
+		c1 = FLAT;
+	else if (t->ht > t->hr) // top slope up
+		c1 = SLOPE_1;
+	else // top slope down
+		c1 = SLOPE_2;
+
+	if (t->hb == t->hr) // bottom flat
+		c2 = FLAT;
+	else if (t->hb > t->hr) // bottom slope up
+		c2 = SLOPE_1;
+	else // bottom slope down
+		c2 = SLOPE_2;
+
+	window->drawTriangle(t->topx, t->topy, t->rightx, t->righty, t->leftx, t->lefty, c1.r, c1.g, c1.b);
+	window->drawTriangle(t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c2.r, c2.g, c2.b);
+}
+
+void IsometricGrid::drawTileQuad(Tile* t) {
+	color3f c1 = FLAT;
+	color3f c2 = FLAT;
+
+	if (t->ht == t->hr && t->ht > t->hl) // slope up top right
+		c1 = SLOPE_1;
+	else if (t->ht == t->hr && t->ht < t->hl) // slope down top right
+		c1 = SLOPE_2;
+	else if (t->ht == t->hl && t->ht > t->hr) // slope up top left
+		c1 = SLOPE_2;
+	else if (t->ht == t->hl && t->ht < t->hr) // slope down top left
+		c1 = SLOPE_1;
+	else
+		c1 = { 0.6f, 0.76f, 0.36f };
+	window->drawQuad(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c1.r, c1.g, c1.b);
+
+}
+
 void IsometricGrid::drawTile(Tile* t) {
-	float r = 0.1f + (t->col * 0.1f);
-	float g = 0.1f + (t->row * 0.1f);
-	float b = 0.0f;
 
 	color3f f = { 0.6f, 0.7373f, 0.3765f };
 
@@ -87,59 +178,17 @@ void IsometricGrid::drawTile(Tile* t) {
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	if (ht == hr && hr == hb && hb == hl) { // flat tile
-		c1 = f;
-		window->drawQuad(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c1.r, c1.g, c1.b);
+	if (isFlatTile(t)) { // flat tile
+		drawTileQuadColor(t, f);
 	}
 	else if (ht == hb) { // split v
-
-		if (ht == hr) // right flat
-			c1 = f;
-		else if (ht > hr) // right slope down
-			c1 = s2;
-		else // right slope up
-			c1 = s;
-
-		if (ht == hl) // left flat
-			c2 = f;
-		else if (ht > hl) // left slope up
-			c2 = s;
-		else // left slope down
-			c2 = s2;
-
-		window->drawTriangle(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, c1.r, c1.g, c1.b);
-		window->drawTriangle(t->topx, t->topy, t->bottomx, t->bottomy, t->leftx, t->lefty, c2.r, c2.g, c2.b);
+		drawTileSplitVertical(t);
 	}
 	else if (hr == hl) { // split h
-		if (ht == hr) // top flat
-			c1 = f;
-		else if (ht > hr) // top slope up
-			c1 = s;
-		else // top slope down
-			c1 = s2;
-
-		if (hb == hr) // bottom flat
-			c2 = f;
-		else if (hb > hr) // bottom slope up
-			c2 = s;
-		else // bottom slope down
-			c2 = s2;
-
-		window->drawTriangle(t->topx, t->topy, t->rightx, t->righty, t->leftx, t->lefty, c1.r, c1.g, c1.b);
-		window->drawTriangle(t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c2.r, c2.g, c2.b);
+		drawTileSplitHorizontal(t);
 	}
 	else { // quad
-		if (ht == hr && ht > hl) // slope up top right
-			c1 = s;
-		else if (ht == hr && ht < hl) // slope down top right
-			c1 = s2;
-		else if (ht == hl && ht > hr) // slope up top left
-			c1 = s2;
-		else if (ht == hl && ht < hr) // slope down top left
-			c1 = s;
-		else
-			c1 = { 0.6f, 0.76f, 0.36f };
-		window->drawQuad(t->topx, t->topy, t->rightx, t->righty, t->bottomx, t->bottomy, t->leftx, t->lefty, c1.r, c1.g, c1.b);
+		drawTileQuad(t);
 	}
 }
 
@@ -213,6 +262,10 @@ void IsometricGrid::increaseTileHeight(Tile* t, int amount) {
 	increaseTileHB(t, amount);
 	increaseTileHL(t, amount);
 	t->calculateVertices();
+}
+
+void IsometricGrid::increaseSelectedTileHeight(int amount) {
+	increaseTileHeight(getTileAtXY(selected.x, selected.y), 8);
 }
 
 void IsometricGrid::increaseTileHT(Tile* t, int amount) {
